@@ -1,103 +1,526 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ビア検2級・3級対策</title>
-
-<style>
-body{
-    margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-    background:#f5f5f5;
-}
-
-header{
-    background:#d4a017;
-    color:white;
-    text-align:center;
-    padding:20px;
-    font-size:28px;
-    font-weight:bold;
-}
-
-.sub{
-    text-align:center;
-    color:#666;
-    margin:15px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:15px;
-    padding:20px;
-}
-
-.card{
-    background:white;
-    border-radius:15px;
-    padding:25px;
-    text-align:center;
-    font-size:18px;
-    font-weight:bold;
-    box-shadow:0 3px 8px rgba(0,0,0,.15);
-    cursor:pointer;
-    transition:.2s;
-}
-
-.card:hover{
-    transform:scale(1.03);
-}
-
-footer{
-    text-align:center;
-    padding:25px;
-    color:#999;
-}
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#121212" />
+  <title>ビア検2級・3級対策</title>
+  <style>
+    :root{
+      --bg:#0f1115;
+      --panel:#171a21;
+      --panel-2:#1d2230;
+      --card:#202637;
+      --text:#f4f7fb;
+      --muted:#aab4c5;
+      --accent:#d6a63b;
+      --accent-2:#7dd3fc;
+      --danger:#fb7185;
+      --ok:#34d399;
+      --border:rgba(255,255,255,.08);
+      --shadow: 0 18px 45px rgba(0,0,0,.32);
+      --radius:22px;
+    }
+    [data-theme="light"]{
+      --bg:#f4f6fa;
+      --panel:#ffffff;
+      --panel-2:#ffffff;
+      --card:#ffffff;
+      --text:#101522;
+      --muted:#5b6477;
+      --border:rgba(16,21,34,.08);
+      --shadow: 0 14px 30px rgba(16,21,34,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, rgba(214,166,59,.18), transparent 28%), var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,select{font:inherit}
+    .app{min-height:100%; padding-bottom:92px;}
+    .topbar{
+      position:sticky; top:0; z-index:20;
+      backdrop-filter: blur(16px);
+      background: color-mix(in srgb, var(--bg) 72%, transparent);
+      border-bottom:1px solid var(--border);
+    }
+    .topbar-inner{max-width:1100px; margin:0 auto; padding:14px 16px 12px; display:flex; gap:12px; align-items:center; justify-content:space-between;}
+    .brand{display:flex; align-items:center; gap:12px; min-width:0}
+    .logo{
+      width:42px;height:42px;border-radius:14px; display:grid; place-items:center;
+      background:linear-gradient(145deg, rgba(214,166,59,.95), rgba(214,166,59,.55)); color:#1c1200; font-size:22px; box-shadow:var(--shadow);
+      flex:0 0 auto;
+    }
+    .brand h1{margin:0; font-size:17px; line-height:1.1}
+    .brand p{margin:3px 0 0; font-size:12px; color:var(--muted)}
+    .actions{display:flex; gap:10px; align-items:center}
+    .icon-btn{
+      width:40px;height:40px; border-radius:14px; border:1px solid var(--border);
+      background:var(--panel); color:var(--text); display:grid; place-items:center; box-shadow:var(--shadow); cursor:pointer;
+    }
+    .container{max-width:1100px; margin:0 auto; padding:18px 16px 0}
+    .hero{
+      background: linear-gradient(145deg, rgba(214,166,59,.16), rgba(125,211,252,.08)), var(--panel);
+      border:1px solid var(--border); border-radius:28px; padding:18px; box-shadow:var(--shadow);
+    }
+    .hero-grid{display:grid; grid-template-columns: 1.35fr .9fr; gap:16px; align-items:stretch}
+    .hero h2{margin:0 0 10px; font-size:clamp(22px, 3vw, 34px)}
+    .hero p{margin:0; color:var(--muted); line-height:1.7}
+    .quick-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+    .stat{
+      padding:14px; border-radius:20px; background:var(--card); border:1px solid var(--border);
+    }
+    .stat strong{display:block; font-size:22px; margin-bottom:5px}
+    .stat span{font-size:12px; color:var(--muted)}
+    .section{margin-top:18px}
+    .section-head{display:flex; align-items:end; justify-content:space-between; gap:10px; margin:4px 0 12px}
+    .section-head h3{margin:0; font-size:18px}
+    .section-head span{color:var(--muted); font-size:12px}
+    .nav-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px}
+    .nav-card{
+      border:1px solid var(--border); background:var(--panel); border-radius:22px; padding:16px; box-shadow:var(--shadow);
+      min-height:88px; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;
+      transition: transform .16s ease, border-color .16s ease;
+    }
+    .nav-card:hover{transform:translateY(-2px); border-color:rgba(214,166,59,.45)}
+    .nav-card strong{font-size:18px}
+    .nav-card small{color:var(--muted)}
+    .pill-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+    .pill{
+      padding:8px 12px; border-radius:999px; background:rgba(214,166,59,.12); color:var(--text); border:1px solid rgba(214,166,59,.18); font-size:12px;
+    }
+    .toolbar{
+      display:flex; gap:10px; flex-wrap:wrap; margin:0 0 12px;
+    }
+    .input, .select{
+      width:100%; border:1px solid var(--border); background:var(--panel); color:var(--text); border-radius:16px; padding:13px 14px; outline:none;
+      box-shadow:var(--shadow);
+    }
+    .toolbar > *{flex:1 1 180px}
+    .chips{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px}
+    .chip{
+      border:1px solid var(--border); background:var(--panel); color:var(--text); padding:9px 12px; border-radius:999px; cursor:pointer;
+    }
+    .chip.active{background:rgba(214,166,59,.18); border-color:rgba(214,166,59,.25)}
+    .grid{display:grid; gap:12px}
+    .people{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+    .list-card{
+      background:var(--panel); border:1px solid var(--border); border-radius:22px; padding:16px; box-shadow:var(--shadow);
+    }
+    .list-card h4{margin:0 0 8px; font-size:17px}
+    .meta{color:var(--muted); font-size:12px; line-height:1.55}
+    .badge{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:rgba(125,211,252,.12); border:1px solid rgba(125,211,252,.15); font-size:12px; margin-top:10px}
+    .detail{margin-top:10px; color:var(--text); font-size:14px; line-height:1.7}
+    .hidden{display:none !important}
+    .timeline-item{display:grid; grid-template-columns:92px 1fr; gap:12px; align-items:start}
+    .year{
+      font-weight:800; font-size:18px; color:var(--accent); padding-top:1px;
+    }
+    .quiz-box{background:var(--panel); border:1px solid var(--border); border-radius:24px; padding:18px; box-shadow:var(--shadow)}
+    .quiz-q{font-size:18px; line-height:1.6; margin:0 0 14px}
+    .answers{display:grid; gap:10px}
+    .answer{
+      text-align:left; border:1px solid var(--border); background:var(--card); color:var(--text); border-radius:18px; padding:14px 15px; cursor:pointer;
+    }
+    .answer.correct{outline:2px solid var(--ok)}
+    .answer.wrong{outline:2px solid var(--danger)}
+    .feedback{margin-top:12px; font-size:14px; color:var(--muted); line-height:1.7}
+    .bottom-nav{
+      position:fixed; left:0; right:0; bottom:0; z-index:30; backdrop-filter: blur(16px);
+      background: color-mix(in srgb, var(--bg) 68%, transparent); border-top:1px solid var(--border);
+    }
+    .bottom-nav-inner{max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(5,1fr); gap:6px; padding:10px 10px 14px}
+    .tab{
+      border:1px solid transparent; background:transparent; color:var(--muted); padding:10px 6px; border-radius:16px; cursor:pointer; display:flex; flex-direction:column; gap:4px; align-items:center; justify-content:center; font-size:11px;
+    }
+    .tab.active{background:rgba(214,166,59,.15); color:var(--text); border-color:rgba(214,166,59,.2)}
+    .tab .emoji{font-size:18px}
+    .footer-space{height:18px}
+    .results{display:grid; gap:12px}
+    .search-result strong{display:block; margin-bottom:5px}
+    .search-result .kind{font-size:12px; color:var(--accent); margin-bottom:6px}
+    .muted{color:var(--muted)}
+    @media (max-width: 780px){
+      .hero-grid{grid-template-columns:1fr}
+      .quick-stats{grid-template-columns:repeat(3,1fr)}
+      .nav-grid{grid-template-columns:1fr}
+      .timeline-item{grid-template-columns:1fr}
+      .year{padding:0}
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo">🍺</div>
+          <div>
+            <h1>ビア検 2級・3級対策</h1>
+            <p>人物・年表・用語・模試をひとまとめ</p>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="icon-btn" id="themeBtn" aria-label="theme">☾</button>
+          <button class="icon-btn" id="shuffleBtn" aria-label="random">↻</button>
+        </div>
+      </div>
+    </header>
 
-<header>
-🍺 ビア検2級・3級対策
-</header>
+    <main class="container">
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <h2>今日の1問と、必要な知識を最短で。</h2>
+            <p>頻出人物、年代、ビアスタイル、製造工程、酒税法をまとめて学べる、ビア検用の学習アプリです。ここから問題演習と復習を回していきます。</p>
+            <div class="pill-row" id="heroPills"></div>
+          </div>
+          <div class="quick-stats">
+            <div class="stat"><strong id="statPeople">0</strong><span>人物</span></div>
+            <div class="stat"><strong id="statTimeline">0</strong><span>年表</span></div>
+            <div class="stat"><strong id="statStyles">0</strong><span>スタイル</span></div>
+          </div>
+        </div>
+      </section>
 
-<div class="sub">
-Version 1.0
-</div>
+      <section class="section">
+        <div class="section-head">
+          <h3>メニュー</h3>
+          <span>タップして切り替え</span>
+        </div>
+        <div class="nav-grid">
+          <div class="nav-card" data-view="home"><strong>🏠 ホーム</strong><small>全体の入口</small></div>
+          <div class="nav-card" data-view="people"><strong>👤 人物一覧</strong><small>グロル、ドレハー、ハンセン…</small></div>
+          <div class="nav-card" data-view="timeline"><strong>📅 年表</strong><small>世界史・日本史</small></div>
+          <div class="nav-card" data-view="styles"><strong>🍺 ビアスタイル</strong><small>ラガー、IPA、ヴァイツェン…</small></div>
+          <div class="nav-card" data-view="quiz"><strong>🎯 1問チャレンジ</strong><small>4択でさくっと復習</small></div>
+          <div class="nav-card" data-view="search"><strong>🔍 検索</strong><small>人物・年号・用語を横断</small></div>
+        </div>
+      </section>
 
-<div class="grid">
+      <section class="section" id="view-home">
+        <div class="section-head"><h3>おすすめ</h3><span>頻出から先に</span></div>
+        <div class="grid" id="featured"></div>
+      </section>
 
-<div class="card">📚 学習する</div>
+      <section class="section hidden" id="view-people">
+        <div class="section-head"><h3>人物一覧</h3><span>人物集中モード</span></div>
+        <div class="toolbar">
+          <input class="input" id="personSearch" placeholder="人物名で検索" />
+          <select class="select" id="personFilter">
+            <option value="all">全て</option>
+            <option value="world">世界史</option>
+            <option value="japan">日本史</option>
+            <option value="brew">醸造</option>
+          </select>
+        </div>
+        <div class="grid people" id="peopleList"></div>
+      </section>
 
-<div class="card">🎯 模試</div>
+      <section class="section hidden" id="view-timeline">
+        <div class="section-head"><h3>年表</h3><span>年代を流れで覚える</span></div>
+        <div class="chips" id="timelineChips"></div>
+        <div class="grid" id="timelineList"></div>
+      </section>
 
-<div class="card">📝 ランダム問題</div>
+      <section class="section hidden" id="view-styles">
+        <div class="section-head"><h3>ビアスタイル</h3><span>スタイル当て対策</span></div>
+        <div class="grid people" id="stylesList"></div>
+      </section>
 
-<div class="card">👤 人物一覧</div>
+      <section class="section hidden" id="view-quiz">
+        <div class="section-head"><h3>1問チャレンジ</h3><span>毎回ランダム</span></div>
+        <div class="quiz-box">
+          <p class="quiz-q" id="quizQuestion"></p>
+          <div class="answers" id="quizAnswers"></div>
+          <div class="feedback" id="quizFeedback"></div>
+        </div>
+      </section>
 
-<div class="card">📅 年表</div>
+      <section class="section hidden" id="view-search">
+        <div class="section-head"><h3>横断検索</h3><span>人物・年号・用語・スタイル</span></div>
+        <div class="toolbar">
+          <input class="input" id="searchInput" placeholder="例：グロル / 1842 / ピルスナー / 純粋培養" />
+        </div>
+        <div class="results" id="searchResults"></div>
+      </section>
 
-<div class="card">🍺 ビアスタイル</div>
+      <div class="footer-space"></div>
+    </main>
 
-<div class="card">🌿 ホップ</div>
+    <nav class="bottom-nav">
+      <div class="bottom-nav-inner">
+        <button class="tab active" data-view-tab="home"><span class="emoji">🏠</span><span>ホーム</span></button>
+        <button class="tab" data-view-tab="people"><span class="emoji">👤</span><span>人物</span></button>
+        <button class="tab" data-view-tab="timeline"><span class="emoji">📅</span><span>年表</span></button>
+        <button class="tab" data-view-tab="quiz"><span class="emoji">🎯</span><span>問題</span></button>
+        <button class="tab" data-view-tab="search"><span class="emoji">🔍</span><span>検索</span></button>
+      </div>
+    </nav>
+  </div>
 
-<div class="card">⚙️ 製造工程</div>
+  <script>
+    const data = {
+      people: [
+        { name: 'ヨーゼフ・グロル', era: 'world', year: 1842, tag: 'ピルスナー誕生', note: 'ピルゼンで下面発酵の黄金色ビールを完成。', memorize: '「ピルスナーの父」＝グロル。' },
+        { name: 'アントン・ドレハー', era: 'world', year: 1830, tag: '低温で安定', note: 'ウィーンラガーの発展に大きく関わる。', memorize: '「ラガーの広がり」＝ドレハー。' },
+        { name: 'ルイ・パスツール', era: 'world', year: 1866, tag: '低温殺菌', note: '発酵の研究と低温殺菌で重要。', memorize: '「酵母と発酵」＝パスツール。' },
+        { name: 'エミール・ハンセン', era: 'world', year: 1883, tag: '純粋培養', note: '酵母の純粋培養に成功。', memorize: '「単一酵母」＝ハンセン。' },
+        { name: 'カール・フォン・リンデ', era: 'world', year: 1873, tag: '冷却装置', note: '人工冷却でラガー普及に寄与。', memorize: '「冷やす人」＝リンデ。' },
+        { name: '中川清兵衛', era: 'japan', year: 1872, tag: '日本の醸造', note: '日本のビール醸造史で重要な人物。', memorize: '「日本のビール初期」＝中川清兵衛。' },
+        { name: 'ウィリアム・コープランド', era: 'japan', year: 1870, tag: '横浜の醸造', note: '日本でのビール醸造の初期に登場。', memorize: '「横浜」＝コープランド。' },
+        { name: '鳥井駒吉', era: 'japan', year: 1899, tag: 'サントリー系', note: '日本のビール産業史で覚えておきたい。', memorize: '「近代日本のビール」＝鳥井駒吉。' }
+      ],
+      timeline: [
+        { year: '紀元前3000年', group: 'world', title: 'シュメール', body: 'ビールの起源として扱われることが多い。' },
+        { year: '紀元前1750年', group: 'world', title: 'ハンムラビ法典', body: 'ビールに関する規定がある。' },
+        { year: '1040年', group: 'world', title: 'ヴァイエンシュテファン', body: '修道院ブルワリーとして重要。' },
+        { year: '1516年', group: 'world', title: 'ビール純粋令', body: 'ドイツのビール規定で頻出。' },
+        { year: '1842年', group: 'world', title: 'ピルスナー誕生', body: 'ピルゼンでピルスナーが誕生。' },
+        { year: '1876年', group: 'world', title: '低温殺菌の応用', body: 'ビールへの低温殺菌応用が進む。' },
+        { year: '1883年', group: 'world', title: '酵母純粋培養', body: 'エミール・ハンセンの業績。' },
+        { year: '1901年', group: 'japan', title: '麦酒税法', body: '日本の酒税法系で重要な年代。' },
+        { year: '1949年', group: 'japan', title: '大日本麦酒分割', body: '戦後日本のビール業界を理解する鍵。' }
+      ],
+      styles: [
+        { name: 'ピルスナー', type: 'ラガー', note: '下面発酵・ホップ感・黄金色', tag: '王道スタイル' },
+        { name: 'ヴァイツェン', type: 'エール', note: '小麦麦芽・酵母由来の香り', tag: 'クローブ・バナナ' },
+        { name: 'IPA', type: 'エール', note: 'ホップを強く効かせる', tag: '苦味強め' },
+        { name: 'スタウト', type: 'エール', note: 'ロースト香・黒色', tag: '焙煎麦芽' },
+        { name: 'ケルシュ', type: 'ハイブリッド', note: 'すっきりとした飲み口', tag: '上面発酵・低温熟成' },
+        { name: 'ランビック', type: '自然発酵', note: '野生酵母・酸味', tag: 'ベルギー' }
+      ],
+      glossary: [
+        ['IBU', 'International Bitterness Units。苦味の指標。'],
+        ['ルプリン', 'ホップの苦味・香り成分。'],
+        ['イソα酸', 'ホップの苦味の中心成分。'],
+        ['マイシェ', '糖化工程のドイツ語表現。'],
+        ['ワールプール', '煮沸後に渦でホップ滓などを集める工程。']
+      ],
+      questions: [
+        {
+          q: 'ピルスナー誕生に関わる人物は誰？',
+          options: ['ヨーゼフ・グロル', 'ルイ・パスツール', 'エミール・ハンセン', 'カール・フォン・リンデ'],
+          answer: 0,
+          explain: 'ピルスナーはヨーゼフ・グロルが有名です。'
+        },
+        {
+          q: '酵母純粋培養に成功した人物は？',
+          options: ['アントン・ドレハー', 'エミール・ハンセン', '中川清兵衛', '鳥井駒吉'],
+          answer: 1,
+          explain: '酵母の純粋培養はエミール・ハンセンです。'
+        },
+        {
+          q: '1516年に制定された、ビールに関する有名な規定は？',
+          options: ['麦酒税法', 'ビール純粋令', '酒税法改正', '禁酒法'],
+          answer: 1,
+          explain: '1516年はビール純粋令の年です。'
+        },
+        {
+          q: '下面発酵・低温熟成で知られる代表的スタイルは？',
+          options: ['ヴァイツェン', 'スタウト', 'ピルスナー', 'ランビック'],
+          answer: 2,
+          explain: 'ピルスナーは下面発酵・低温熟成が基本です。'
+        }
+      ]
+    };
 
-<div class="card">📖 Glossary</div>
+    const state = {
+      view: 'home',
+      quizIndex: 0,
+      quizAnswered: false,
+      theme: localStorage.getItem('beerken-theme') || 'dark'
+    };
 
-<div class="card">🔍 検索</div>
+    const el = (id) => document.getElementById(id);
+    const q = (s, p=document) => p.querySelector(s);
+    const qa = (s, p=document) => [...p.querySelectorAll(s)];
 
-</div>
+    function setTheme(theme){
+      state.theme = theme;
+      document.documentElement.dataset.theme = theme;
+      localStorage.setItem('beerken-theme', theme);
+      el('themeBtn').textContent = theme === 'dark' ? '☾' : '☀';
+    }
 
-<footer>
+    function setView(view){
+      state.view = view;
+      qa('[id^="view-"]').forEach(v => v.classList.toggle('hidden', v.id !== `view-${view}`));
+      qa('.tab').forEach(t => t.classList.toggle('active', t.dataset.viewTab === view));
+      qa('.nav-card').forEach(c => c.style.outline = c.dataset.view === view ? '2px solid rgba(214,166,59,.45)' : 'none');
+      if(view === 'quiz' && !state.quizAnswered) renderQuiz();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-BeerDB Powered
+    function renderPills(){
+      const pills = ['人物集中','年代集中','酒税法','ビアスタイル','模試'];
+      el('heroPills').innerHTML = pills.map(p => `<span class="pill">${p}</span>`).join('');
+    }
 
-</footer>
+    function renderFeatured(){
+      const items = [
+        { title:'最初に覚える人物', body:'ヨーゼフ・グロル / ハンセン / パスツールを先に固める。' },
+        { title:'年号の軸', body:'1516 / 1842 / 1883 / 1901 をセットで押さえる。' },
+        { title:'スタイルの軸', body:'ピルスナー / ヴァイツェン / IPA / スタウトを対比で覚える。' }
+      ];
+      el('featured').innerHTML = items.map(x => `
+        <div class="list-card">
+          <h4>${x.title}</h4>
+          <div class="meta">${x.body}</div>
+        </div>
+      `).join('');
+    }
 
+    function renderPeople(){
+      const term = el('personSearch').value.trim().toLowerCase();
+      const group = el('personFilter').value;
+      const items = data.people.filter(p => {
+        const hit = !term || [p.name,p.tag,p.note,p.memorize,p.year].join(' ').toLowerCase().includes(term);
+        const groupOk = group === 'all' || p.era === group;
+        return hit && groupOk;
+      });
+      el('peopleList').innerHTML = items.map(p => `
+        <article class="list-card">
+          <h4>${p.name}</h4>
+          <div class="meta">${p.year} / ${p.tag}</div>
+          <div class="badge">${p.era === 'world' ? '世界史' : p.era === 'japan' ? '日本史' : '醸造'}</div>
+          <div class="detail"><strong>要点：</strong>${p.note}</div>
+          <div class="detail"><strong>覚え方：</strong>${p.memorize}</div>
+        </article>
+      `).join('') || '<div class="list-card muted">該当なし</div>';
+    }
+
+    function renderTimeline(){
+      const group = window.__timelineGroup || 'all';
+      const items = data.timeline.filter(x => group === 'all' ? true : x.group === group);
+      el('timelineList').innerHTML = items.map(t => `
+        <article class="list-card timeline-item">
+          <div class="year">${t.year}</div>
+          <div>
+            <h4>${t.title}</h4>
+            <div class="meta">${t.body}</div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function renderTimelineChips(){
+      const chips = [
+        { key:'all', label:'全部' },
+        { key:'world', label:'世界史' },
+        { key:'japan', label:'日本史' }
+      ];
+      el('timelineChips').innerHTML = chips.map(c => `<button class="chip ${c.key==='all'?'active':''}" data-chip="${c.key}">${c.label}</button>`).join('');
+      qa('[data-chip]').forEach(btn => btn.onclick = () => {
+        window.__timelineGroup = btn.dataset.chip;
+        qa('[data-chip]').forEach(x => x.classList.toggle('active', x === btn));
+        renderTimeline();
+      });
+    }
+
+    function renderStyles(){
+      el('stylesList').innerHTML = data.styles.map(s => `
+        <article class="list-card">
+          <h4>${s.name}</h4>
+          <div class="meta">${s.type}</div>
+          <div class="detail">${s.note}</div>
+          <div class="badge">${s.tag}</div>
+        </article>
+      `).join('');
+    }
+
+    function renderQuiz(){
+      const item = data.questions[state.quizIndex % data.questions.length];
+      state.quizAnswered = false;
+      el('quizQuestion').textContent = item.q;
+      el('quizAnswers').innerHTML = item.options.map((opt, idx) => `<button class="answer" data-ans="${idx}">${String.fromCharCode(65+idx)}. ${opt}</button>`).join('');
+      el('quizFeedback').textContent = '選択すると正誤が表示されます。';
+      qa('[data-ans]').forEach(btn => btn.onclick = () => checkAnswer(Number(btn.dataset.ans)));
+    }
+
+    function checkAnswer(idx){
+      if(state.quizAnswered) return;
+      const item = data.questions[state.quizIndex % data.questions.length];
+      state.quizAnswered = true;
+      qa('[data-ans]').forEach(btn => {
+        const n = Number(btn.dataset.ans);
+        btn.classList.toggle('correct', n === item.answer);
+        btn.classList.toggle('wrong', n === idx && n !== item.answer);
+      });
+      el('quizFeedback').textContent = `${idx === item.answer ? '○' : '×'} 正解：${item.options[item.answer]} / ${item.explain}`;
+      setTimeout(() => { state.quizIndex++; }, 0);
+    }
+
+    function searchAll(){
+      const term = el('searchInput').value.trim().toLowerCase();
+      if(!term){
+        el('searchResults').innerHTML = '<div class="list-card muted">キーワードを入れると横断検索できます。</div>';
+        return;
+      }
+      const results = [];
+      data.people.forEach(p => {
+        const text = [p.name,p.tag,p.note,p.memorize,p.year].join(' ');
+        if(text.toLowerCase().includes(term)) results.push({ kind:'人物', title:p.name, body:`${p.year} / ${p.tag} / ${p.note}` });
+      });
+      data.timeline.forEach(t => {
+        const text = [t.year,t.title,t.body].join(' ');
+        if(text.toLowerCase().includes(term)) results.push({ kind:'年表', title:`${t.year} ${t.title}`, body:t.body });
+      });
+      data.styles.forEach(s => {
+        const text = [s.name,s.type,s.note,s.tag].join(' ');
+        if(text.toLowerCase().includes(term)) results.push({ kind:'スタイル', title:s.name, body:`${s.type} / ${s.note}` });
+      });
+      data.glossary.forEach(([k,v]) => {
+        const text = [k,v].join(' ');
+        if(text.toLowerCase().includes(term)) results.push({ kind:'用語', title:k, body:v });
+      });
+      data.questions.forEach((qItem) => {
+        const text = [qItem.q, ...qItem.options, qItem.explain].join(' ');
+        if(text.toLowerCase().includes(term)) results.push({ kind:'問題', title:qItem.q, body:qItem.explain });
+      });
+      el('searchResults').innerHTML = results.length ? results.map(r => `
+        <article class="list-card search-result">
+          <div class="kind">${r.kind}</div>
+          <strong>${r.title}</strong>
+          <div class="meta">${r.body}</div>
+        </article>
+      `).join('') : '<div class="list-card muted">見つかりませんでした。</div>';
+    }
+
+    function bind(){
+      qa('[data-view], [data-view-tab]').forEach(btn => {
+        btn.addEventListener('click', () => setView(btn.dataset.view || btn.dataset.viewTab));
+      });
+      el('themeBtn').onclick = () => setTheme(state.theme === 'dark' ? 'light' : 'dark');
+      el('shuffleBtn').onclick = () => { state.quizIndex = Math.floor(Math.random() * data.questions.length); setView('quiz'); renderQuiz(); };
+      el('personSearch').addEventListener('input', renderPeople);
+      el('personFilter').addEventListener('change', renderPeople);
+      el('searchInput').addEventListener('input', searchAll);
+    }
+
+    function init(){
+      setTheme(state.theme);
+      renderPills();
+      renderFeatured();
+      renderPeople();
+      renderTimelineChips();
+      renderTimeline();
+      renderStyles();
+      renderQuiz();
+      bind();
+      el('statPeople').textContent = data.people.length;
+      el('statTimeline').textContent = data.timeline.length;
+      el('statStyles').textContent = data.styles.length;
+      setView('home');
+    }
+
+    init();
+  </script>
 </body>
 </html>
